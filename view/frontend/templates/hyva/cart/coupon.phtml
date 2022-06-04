@@ -1,0 +1,27 @@
+<?php
+/**
+ * Copyright © element119. All rights reserved.
+ * See LICENCE.txt for licence details.
+ */
+declare(strict_types=1);
+
+use Magento\Checkout\Block\Cart\Coupon;
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
+/** @var Coupon $block */
+?>
+<div class="coupon-form pt-6">
+    <div class="mx-auto md:mx-0">
+        <div class="text-left">
+            <span class="text-primary-lighter select-none whitespace-nowrap">
+                <span class="underline">
+                    <?= $escaper->escapeHtml(__('Apply Discount Code')); ?>
+                </span>
+            </span>
+        </div>
+    </div>
+    <div class="my-4 card">
+        <?= $block->getChildHtml('magewire.coupon-code'); ?>
+    </div>
+</div>

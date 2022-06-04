@@ -1,0 +1,48 @@
+<?php
+/**
+ * Copyright © element119. All rights reserved.
+ * See LICENCE.txt for licence details.
+ */
+declare(strict_types=1);
+
+use Element119\MagewireCouponCode\Magewire\Coupon;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Coupon $couponComponent */
+$couponComponent = $block->getMagewire();
+?>
+<div x-data
+     class="flex flex-col justify-center gap-2 sm:flex-row md:justify-start">
+    <input type="text"
+           id="coupon_code"
+           name="coupon_code"
+           class="form-input text-center border-background-dark md:text-left"
+           placeholder="<?= $escaper->escapeHtmlAttr(__('Enter discount code')); ?>"
+           wire:model.debounce.500ms="couponCode"
+           wire:keydown.enter="apply"
+           :disabled="$wire.isCouponApplied"
+           :class="{'text-gray-500': $wire.isCouponApplied}"/>
+    <button type="submit"
+            @click.prevent="$wire.isCouponApplied ? $wire.remove() : $wire.apply()"
+            value="<?= $escaper->escapeHtmlAttr(__('Apply Coupon Code')); ?>"
+            class="btn btn-primary justify-center md:text-sm lg:text-base">
+        <span>
+            <?= $escaper->escapeHtml($couponComponent->isCouponApplied
+                ? __('Cancel Coupon')
+                : __('Apply Discount')
+            ); ?>
+        </span>
+    </button>
+    <script wire:ignore>
+        window.addEventListener('<?= $escaper->escapeJs(Coupon::BROWSER_EVENT_RELOAD_CART_TOTALS); ?>', () => {
+            /**
+             * Although this functionality mimics that of the current Hyvä SSR cart, ideally it would update the totals
+             * so that the coupon can be applied to the quote without reloading the page.
+             */
+            window.location.reload();
+        });
+    </script>
+</div>
