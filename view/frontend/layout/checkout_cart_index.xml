@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © element119. All rights reserved.
+ * See LICENCE.txt for licence details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.cart.coupon" template="Element119_MagewireCouponCode::cart/coupon.phtml">
+            <block name="magewire.coupon-code"
+                   template="Element119_MagewireCouponCode::magewire/coupon-code.phtml">
+                <arguments>
+                    <argument name="magewire" xsi:type="object">
+                        Element119\MagewireCouponCode\Magewire\Coupon
+                    </argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,73 @@
+<?php
+/**
+ * Copyright © element119. All rights reserved.
+ * See LICENCE.txt for licence details.
+ */
+declare(strict_types=1);
+
+use Element119\MagewireCouponCode\Magewire\Coupon;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Coupon $couponComponent */
+$couponComponent = $block->getMagewire();
+?>
+<div class="fieldset coupon<?= $couponComponent->isCouponApplied ? ' applied' : '' ?>">
+    <div class="field">
+        <label for="coupon_code" class="label">
+            <span><?= $escaper->escapeHtml(__('Enter discount code')); ?></span>
+        </label>
+        <div class="control">
+            <input type="text"
+                   id="coupon_code"
+                   name="coupon_code"
+                   class="form-input text-center border-background-dark md:text-left"
+                   <?php if ($couponComponent->isCouponApplied): ?>
+                       disabled="disabled"
+                   <?php endif; ?>
+                   placeholder="<?= $escaper->escapeHtmlAttr(__('Enter discount code')); ?>"
+                   wire:model.debounce.500ms="couponCode"
+                   wire:keydown.enter="apply"/>
+        </div>
+    </div>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="button"
+                    wire:click="<?= $escaper->escapeHtmlAttr($couponComponent->isCouponApplied ? 'remove' : 'apply'); ?>"
+                    class="action primary <?= $escaper->escapeHtmlAttr($couponComponent->isCouponApplied
+                        ? 'cancel'
+                        : 'apply'
+                    ); ?>"
+                    value="<?= $escaper->escapeHtmlAttr($couponComponent->isCouponApplied
+                        ? __('Cancel Coupon')
+                        : __('Apply Discount')
+                    ); ?>">
+                <span>
+            <?= $escaper->escapeHtml($couponComponent->isCouponApplied
+                ? __('Cancel Coupon')
+                : __('Apply Discount')
+            ); ?>
+        </span>
+            </button>
+        </div>
+    </div>
+    <script wire:ignore>
+        require(
+            [
+                'Magento_Checkout/js/model/quote',
+                'Magento_Checkout/js/model/cart/totals-processor/default'
+            ],
+            function(
+                quote,
+                totalsDefaultProvider
+            ) {
+                window.addEventListener('<?= $escaper->escapeJs(Coupon::BROWSER_EVENT_RELOAD_CART_TOTALS); ?>', () => {
+                    // update cart totals
+                    totalsDefaultProvider.estimateTotals(quote.shippingAddress());
+                });
+            }
+        );
+    </script>
+</div>
