@@ -28,7 +28,7 @@ $couponComponent = $block->getMagewire();
                        disabled="disabled"
                    <?php endif; ?>
                    placeholder="<?= $escaper->escapeHtmlAttr(__('Enter discount code')); ?>"
-                   wire:model.debounce.500ms="couponCode"
+                   wire:model.defer="couponCode"
                    wire:keydown.enter="apply"/>
         </div>
     </div>

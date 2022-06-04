@@ -21,7 +21,7 @@ $couponComponent = $block->getMagewire();
            name="coupon_code"
            class="form-input text-center border-background-dark md:text-left"
            placeholder="<?= $escaper->escapeHtmlAttr(__('Enter discount code')); ?>"
-           wire:model.debounce.500ms="couponCode"
+           wire:model.defer="couponCode"
            wire:keydown.enter="apply"
            :disabled="$wire.isCouponApplied"
            :class="{'text-gray-500': $wire.isCouponApplied}"/>
