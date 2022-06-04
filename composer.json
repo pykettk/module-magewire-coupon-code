@@ -1,0 +1,27 @@
+{
+    "name": "element119/module-magewire-coupon-code",
+    "type": "magento2-module",
+    "description": "A Magento 2 module that replaces cart page coupon code elements with Magewire components.",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "Kiel Pykett",
+            "email": "pykettk@gmail.com"
+        }
+    ],
+    "require": {
+        "hyva-themes/magento2-default-theme": "^1.1.15",
+        "magento/module-checkout": "^100.4",
+        "magento/module-quote": "^101.2",
+        "magento/module-sales-rule": "^101.2",
+        "magewirephp/magewire-requirejs": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Element119\\MagewireCouponCode\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}
