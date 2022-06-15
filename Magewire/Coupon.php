@@ -54,7 +54,7 @@ class Coupon extends Component
      *
      * @return void
      */
-    public function boot(): void
+    public function mount(): void
     {
         if ($this->getQuote() && $couponCode = $this->getQuote()->getCouponCode()) {
             $this->couponCode = $couponCode;
@@ -132,13 +132,8 @@ class Coupon extends Component
         $coupon = $this->couponFactory->create();
         $coupon->loadByCode($this->couponCode);
 
-        if ($coupon->getId()
+        return $coupon->getId()
             && $coupon->getCode()
-            && strlen($this->couponCode) <= Cart::COUPON_CODE_MAX_LENGTH
-        ) {
-            return true;
-        }
-
-        return false;
+            && strlen($this->couponCode) <= Cart::COUPON_CODE_MAX_LENGTH;
     }
 }
